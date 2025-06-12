@@ -1,0 +1,14 @@
+services:
+    traffic-lab-mysql-db:
+        image: mysql:5.7
+        restart: always
+        platform: linux/amd64
+        environment:
+            MYSQL_ROOT_PASSWORD: password
+            MYSQL_DATABASE: traffic-lab-db
+            MYSQL_USER: traffic-lab
+            MYSQL_PASSWORD: password
+        ports:
+            - 3316:3306
+        volumes:
+            - /Users/kimnelson/mysql-local-storage/5.7/db:/var/lib/mysql
