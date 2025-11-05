@@ -25,21 +25,21 @@ public class Article {
     @Column(nullable = false)
     private String title;
 
-    @Lob
+    @Lob    // text 타입 매핑을 위해 @Lob 어노테이션 사용
     @Column(nullable = false)
     private String content;
 
     @ManyToOne
-    @JoinColumn(foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    @JoinColumn(foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)) // 외래 키 제약 조건 비활성화
     private User author;
 
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    @JoinColumn(foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)) // 외래 키 제약 조건 비활성화
     private Board board;
 
     @OneToMany
-    @JoinColumn(foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    @JoinColumn(foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)) // 외래 키 제약 조건 비활성화
     private List<Comment> comments =new ArrayList<>();
 
     @Column(nullable = false)
