@@ -9,6 +9,8 @@ import com.ssipflow.backend.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,9 +26,10 @@ public class ArticleController {
     private final CommentService commentService;
 
     @PostMapping("/{boardId}/articles")
-    public ResponseEntity<Article> writeArticle(@PathVariable Long boardId,
+    public ResponseEntity<Article> writeArticle(@AuthenticationPrincipal UserDetails userDetails,
+                                                @PathVariable Long boardId,
                                                 @RequestBody WriteArticleDto writeArticleDto) throws JsonProcessingException {
-        return ResponseEntity.ok(articleService.writeArticle(boardId, writeArticleDto));
+        return ResponseEntity.ok(articleService.writeArticle(boardId, writeArticleDto, userDetails));
     }
 
     @GetMapping("/{boardId}/articles")
