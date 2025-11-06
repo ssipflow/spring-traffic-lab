@@ -52,16 +52,16 @@ public class ArticleService {
         return article;
     }
 
-    public List<Article> getOldArticle(Long boardId, Long lastId) {
-        return null;
+    public List<Article> getOldArticle(Long boardId, Long articleId) {
+        return articleRepository.findTop10ByBoardIdAndArticleIdLessThanOrderByCreatedDateDesc(boardId, articleId);
     }
 
-    public List<Article> getNewArticle(Long boardId, Long firstId) {
-        return null;
+    public List<Article> getNewArticle(Long boardId, Long articleId) {
+        return articleRepository.findTop10ByBoardIdAndArticleIdGreaterThanOrderByCreatedDateDesc(boardId, articleId);
     }
 
     public List<Article> firstGetArticle(Long boardId) {
-        return null;
+        return articleRepository.findTop10ByBoardIdOrderByCreatedDateDesc(boardId);
     }
 
     public List<Article> searchArticle(String keyword) {

@@ -40,7 +40,7 @@ public class Article {
 
     @OneToMany
     @JoinColumn(foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)) // 외래 키 제약 조건 비활성화
-    private List<Comment> comments =new ArrayList<>();
+    private List<Comment> comments = new ArrayList<>();
 
     @Column(nullable = false)
     private Boolean isDeleted = false;
