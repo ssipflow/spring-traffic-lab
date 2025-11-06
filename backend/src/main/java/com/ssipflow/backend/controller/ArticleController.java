@@ -16,7 +16,7 @@ import java.util.concurrent.CompletableFuture;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/articles")
+@RequestMapping("/api/boards")
 public class ArticleController {
 
     private final AuthenticationManager authenticationManager;

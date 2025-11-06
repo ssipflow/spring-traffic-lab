@@ -3,6 +3,8 @@ package com.ssipflow.backend.service;
 import com.ssipflow.backend.dto.EditArticleDto;
 import com.ssipflow.backend.dto.WriteArticleDto;
 import com.ssipflow.backend.entity.Article;
+import com.ssipflow.backend.entity.Board;
+import com.ssipflow.backend.exception.ResourceNotFoundException;
 import com.ssipflow.backend.repository.ArticleRepository;
 import com.ssipflow.backend.repository.BoardRepository;
 import com.ssipflow.backend.repository.UserRepository;
@@ -10,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 @Service
@@ -19,10 +22,22 @@ public class ArticleService {
     private final ArticleRepository articleRepository;
     private final BoardRepository boardRepository;
     private final UserRepository userRepository;
-    
+
 
     public Article writeArticle(Long boardId, WriteArticleDto writeArticleDto) {
-        return null;
+        Optional<Board> board = boardRepository.findById(boardId);
+        if (board.isEmpty()) {
+            throw new ResourceNotFoundException("Board with id " + boardId + " not found");
+        }
+
+        Article article = new Article();
+        article.setBoard(board.get());
+        article.setTitle(writeArticleDto.getTitle());
+        article.setContent(writeArticleDto.getContent());
+
+        articleRepository.save(article);
+
+        return article;
     }
 
     public List<Article> getOldArticle(Long boardId, Long lastId) {
