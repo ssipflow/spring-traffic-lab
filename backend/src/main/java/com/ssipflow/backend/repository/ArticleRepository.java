@@ -30,4 +30,13 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
             "LIMIT 10")
     List<Article> findTop10ByBoardIdAndArticleIdGreaterThanOrderByCreatedDateDesc(@Param("boardId") Long boardId,
                                                                                   @Param("articleId") Long articleId);
+
+    @Query("SELECT a " +
+            "FROM Article a " +
+            "JOIN a.author u " +
+            "WHERE u.username = :username " +
+            "ORDER BY a.createdDate DESC " +
+            "LIMIT 1")
+    Article findLatestArticleByAuthorUsernameOrderByCreatedDate(@Param("username") String username);
+
 }

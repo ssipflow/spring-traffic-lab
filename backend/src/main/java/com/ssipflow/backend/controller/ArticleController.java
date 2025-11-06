@@ -54,10 +54,11 @@ public class ArticleController {
     }
 
     @PutMapping("/{boardId}/articles/{articleId}")
-    public ResponseEntity<Article> editArticle(@PathVariable Long boardId,
+    public ResponseEntity<Article> editArticle(@AuthenticationPrincipal UserDetails userDetails,
+                                               @PathVariable Long boardId,
                                                @PathVariable Long articleId,
                                                @RequestBody EditArticleDto editArticleDto) throws JsonProcessingException {
-        return ResponseEntity.ok(articleService.editArticle(boardId, articleId, editArticleDto));
+        return ResponseEntity.ok(articleService.editArticle(boardId, articleId, editArticleDto, userDetails));
     }
 
     @DeleteMapping("/{boardId}/articles/{articleId}")
