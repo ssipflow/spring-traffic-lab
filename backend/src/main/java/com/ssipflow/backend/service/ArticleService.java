@@ -115,7 +115,32 @@ public class ArticleService {
         return article.get();
     }
 
-    public void deleteArticle(Long boardId, Long articleId) {
+    public void deleteArticle(Long boardId, Long articleId, UserDetails userDetails) {
+        Optional<User> author = userRepository.findByUsername(userDetails.getUsername());
+        if (author.isEmpty()) {
+            throw new ResourceNotFoundException("User with username " + userDetails.getUsername() + " not found");
+        }
+
+        Optional<Board> board = boardRepository.findById(boardId);
+        if (board.isEmpty()) {
+            throw new ResourceNotFoundException("Board with id " + boardId + " not found");
+        }
+
+        Optional<Article> article = articleRepository.findById(articleId);
+        if (article.isEmpty()) {
+            throw new ResourceNotFoundException("Article with id " + articleId + " not found");
+        }
+
+        if (!article.get().getAuthor().getUsername().equals(author.get().getUsername())) {
+            throw new ForbiddenException("User is not the author of the article");
+        }
+
+        if (!this.isCanEditArticle(author.get())) {
+            throw new RateLimitException("Article can only be deleted once every 5 minutes");
+        }
+
+        article.get().setIsDeleted(true);
+        articleRepository.save(article.get());
     }
 
     public CompletableFuture<Article> getArticleWithComment(Long boardId, Long articleId) {

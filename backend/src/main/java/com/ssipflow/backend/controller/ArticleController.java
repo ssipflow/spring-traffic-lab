@@ -62,9 +62,10 @@ public class ArticleController {
     }
 
     @DeleteMapping("/{boardId}/articles/{articleId}")
-    public ResponseEntity<String> deleteArticle(@PathVariable Long boardId,
+    public ResponseEntity<String> deleteArticle(@AuthenticationPrincipal UserDetails userDetails,
+                                                @PathVariable Long boardId,
                                                 @PathVariable Long articleId) {
-        articleService.deleteArticle(boardId, articleId);
+        articleService.deleteArticle(boardId, articleId, userDetails);
         return ResponseEntity.ok("Article deleted successfully");
     }
 
